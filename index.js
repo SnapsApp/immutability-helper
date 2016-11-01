@@ -86,6 +86,16 @@ var defaultCommands = {
     });
     return originalValue;
   },
+  $swap: function(value, newObject, spec, object) {
+    var originalValue = newObject === object ? copy(object) : newObject;
+    invariantSplice(value);
+    var swapValues = value.map(function(index) {
+      return newObject[index];
+    });
+    originalValue[value[0]] = swapValues[1];
+    originalValue[value[1]] = swapValues[0];
+    return originalValue;
+  },
   $set: function(value, original, spec) {
     invariantSet(spec);
     return value;
