@@ -86,14 +86,12 @@ var defaultCommands = {
     });
     return originalValue;
   },
-  $swap: function(value, newObject, spec, object) {
+  $move: function(value, newObject, spec, object) {
     var originalValue = newObject === object ? copy(object) : newObject;
     invariantSplice(value);
-    var swapValues = value.map(function(index) {
-      return newObject[index];
-    });
-    originalValue[value[0]] = swapValues[1];
-    originalValue[value[1]] = swapValues[0];
+    var swapValue = newObject[value[0]];
+    splice.apply(originalValue, [value[0], 1]);
+    splice.apply(originalValue, [value[1], 0, swapValue]);
     return originalValue;
   },
   $set: function(value, original, spec) {
