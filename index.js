@@ -23,6 +23,18 @@ function copy(object) {
   }
 }
 
+function forceObjToArray(obj) {
+  if (!Array.isArray(obj) && typeof obj === 'object' && !isNaN(parseInt(Object.keys(obj)[0], 10))) {
+    var newArr = [];
+    for (var key in obj) {
+      var keyNum = parseInt(key, 10);
+      newArr[keyNum] = obj[key];
+    }
+    return newArr;
+  }
+  return obj;
+}
+
 
 function newContext() {
   var commands = assign({}, defaultCommands);
@@ -71,6 +83,8 @@ function newContext() {
 
 var defaultCommands = {
   $push: function(value, original, spec) {
+    value = forceObjToArray(value);
+    spec.$push = forceObjToArray(spec.$push);
     invariantPushAndUnshift(original, spec, '$push');
     return original.concat(value);
   },
