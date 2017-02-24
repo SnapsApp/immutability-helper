@@ -1,3 +1,4 @@
+/* eslint-disable */
 var invariant = require('invariant');
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
